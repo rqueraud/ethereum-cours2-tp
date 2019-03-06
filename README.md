@@ -12,6 +12,7 @@ Dans un premier temps, il s'agit de remplir le code du contrat en Solidity et de
 
 Tout ce qu'il y a dans ce TP constitue un exemple d'implémentation, vous n'êtes pas obligé de le suivre.  
 
+
 ## 0. Étapes préliminaires
 
 Vous devez avoir suivi le tutoriel https://truffleframework.com/tutorials/pet-shop afin d'avoir un environnement de développement fonctionnel. Celui-ci comprend :
@@ -24,6 +25,12 @@ Vous pourrez également avoir besoin des outils de base de développement :
   - Un éditeur de code : https://code.visualstudio.com/
   - Un terminal : Utilisez celui intégré dans Visual Studio Code
   - Un client Git : https://git-scm.com/downloads
+
+Si vous avez un compte github, la manière la plus simple de procéder est de faire un **fork** de ce dépôt et de pousser vos modifications sur ce fork.  
+En fin de journée, vous pouvez :
+  - Soit m'envoyer un mail avec l'adresse de votre dépôt.
+  - Soit faire une pull/merge request de votre dépôt vers le miens, afin d'identifier facilement les modifications.
+
 
 ## 1. Logique de base du jeu
 
@@ -50,6 +57,7 @@ truffle compile
 truffle migrate  # Quand ça compile bien
 ```
 
+
 ## 2. Interface utilisateur
 
 Le code du dossier **src** contient l'interface utilisateur qui est une interface classique en html/js (je vous laisse le soin de mettre du css pour le style si cela vous fait plaisir ;).
@@ -69,12 +77,14 @@ Les fonctions à modifier sont :
   - Implémenter une manière de voir les valeurs misées par le joueur connecté et son adversaire.
   - Implémenter une façon de jouer en faisant appel à la fonction **play** du contrat.
 
+
 ## 3. Axes d'amélioration
 
 Une fois le TP terminé, plusieurs axes d'amélioration sont possibles :
-  - Terminer le jeu et le rendre complètement fonctionnel pour deux joueurs sur la même machine.
   - Ne pas faire une actualisation active de l'interface mais plutôt souscrire à un evenement sur le changement d'un de nos boards.
   - Déployer le smart contract sur la blockchain publique Ropsten, permettant ainsi à deux joueurs de jouer sur des machines distinctes.
   - Héberger l'application sur Swarm.
-  - Mettre en place Whisper pour que les deux joueurs discutent en amont de la mise initiale à joueur
+  - Permettre de joueur une vraie partie pour deux joueurs sur la même machine.
+  - Utiliser un oracle pour valider au hasard la victoire d'un des deux joueus en cas d'égalité.
+  - Mettre en place Whisper pour que les deux joueurs discutent en amont de la mise initiale à joueur.
   - Mettre en place Raiden pour avoir des micro-paiements et ainsi pouvoir enchainer les parties de manière légère.
