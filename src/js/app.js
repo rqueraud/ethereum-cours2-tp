@@ -89,7 +89,7 @@ App = {
   handleInitGame: function () {
 
     var initGameValue = parseInt(document.getElementById("initGameValue").value);
-    var opponentAddress = document.getElementById("initGameOpponent").value
+    var opponentAddress = document.getElementById("initGameOpponent").value;
 
     App.contracts.TicTacToe.deployed().then(function (instance) {
       instance.initGame(opponentAddress, { value: initGameValue }).then(function () { });
@@ -98,8 +98,13 @@ App = {
 
   handleJoinGame: function () {
     //TODO L'opponent doit pouvoir faire joinGame en prenant les valeurs définies dans le html.
-  }
+    var handleJoinGameValue = parseInt(document.getElementById("joinGameValue").value);
+    var handleJoinGameNumber = parseInt(document.getElementById("joinGameNumber").value);
 
+    App.contracts.TicTacToe.deployed().then(function (instance) {
+      instance.joinGame(handleJoinGameNumber, { value: handleJoinGameValue }).then(function () { });
+    });
+  }
 };
 
 $(function () {
