@@ -51,54 +51,86 @@ App = {
       App.contracts.TicTacToe.deployed().then(function (instance) {
 
         // Retrieve the game Ids and populate the board list
-        instance.getHostGamesIds().then(function(ids){
+        instance.getHostGamesIds().then(async function (ids) {
           console.log(`ids : ${ids}`);
 
           var boardsDiv = document.getElementById("boards");
           boardsDiv.innerHTML = "";
 
-          for(let id of ids){
+          for (let id of ids) {
             var boardDiv = document.createElement("div");
             var h1 = document.createElement("h1");
             h1.innerHTML = `Board ${id}`;
+
+            var h2 = document.createElement("h2");
+            h2.innerHTML = `Mise : ${await instance.getGamePrice(id)}`;
+
+            var h3 = document.createElement("h2");
+            h3.innerHTML = `Opponent : ${await instance.getOppenentAddress(id)}`;
+
             var table = document.createElement("table");
 
-            for(i=0 ; i<3 ; i++){
+            for (i = 0; i < 3; i++) {
               var tr = document.createElement("tr");
-              tr.setAttribute("id", `row-${i}`);
-              for(j=0 ; j<3 ; j++){
-                var td = document.createElement("td");
-                td.setAttribute("id", `col-${j}`);
-                td.innerHTML = "."; 
-                tr.appendChild(td);
+              for (j = 0; j < 3; j++) {
+                var button = document.createElement("button");
+                button.setAttribute("id", `table${id}-row${i}-col${j}`);
+                button.setAttribute('onClick', `App.handlePlayGame(${id}, ${i}, ${j})`);
+                button.innerHTML = "___";
+                
+                tr.appendChild(button);
               }
               table.appendChild(tr);
             }
 
             boardDiv.appendChild(h1);
+            boardDiv.appendChild(h2);
+            boardDiv.appendChild(h3);
             boardDiv.appendChild(table);
             boardsDiv.appendChild(boardDiv);
           }
         });
 
       });
-
     }, 1000);
   },
 
   handleInitGame: function () {
+    let initGameValue = parseInt(document.getElementById("initGameValue").value);
+    let opponentAddress = document.getElementById("initGameOpponent").value
 
-    var initGameValue = parseInt(document.getElementById("initGameValue").value);
-    var opponentAddress = document.getElementById("initGameOpponent").value
-
-    App.contracts.TicTacToe.deployed().then(function (instance) {
-      instance.initGame(opponentAddress, { value: initGameValue }).then(function () { });
-    });
+    App.contracts.TicTacToe.deployed().then(
+      (instance) => {
+        instance.initGame(opponentAddress, initGameValue).then(function () { });
+      });
   },
 
   handleJoinGame: function () {
-    //TODO L'opponent doit pouvoir faire joinGame en prenant les valeurs définies dans le html.
+    let joinGameValue = parseInt(document.getElementById("joinGameValue").value);
+    let joinGameNumber = document.getElementById("joinGameNumber").value
+
+    App.contracts.TicTacToe.deployed().then(
+      (instance) => {
+        instance.joinGame(joinGameNumber, joinGameValue).then(function () { });
+      });
+  },
+
+  handlePlayGame: function (gameNumber, row, column) {
+    App.contracts.TicTacToe.deployed().then(
+      (instance) => {
+        instance.play(gameNumber, row, column).then(function () { });
+      });
+  },
+
+  showPrice: function () {
+    let joinGameNumber = document.getElementById("joinGameNumber").value
+
+    App.contracts.TicTacToe.deployed().then(
+      (instance) => {
+        instance.joinGame(joinGameNumber, joinGameValue).then(function () { });
+      });
   }
+
 
 };
 
