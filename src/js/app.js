@@ -24,7 +24,7 @@ App = {
     }
     // If no injected web3 instance is detected, fall back to Ganache
     else {
-      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
+      App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
     }
     web3 = new Web3(App.web3Provider);
 
@@ -80,6 +80,12 @@ App = {
             boardsDiv.appendChild(boardDiv);
           }
         });
+        
+        
+
+        instance.getOppBalances().then(function(HOpp){
+          console.log(`Mise : ${HOpp}`);
+        });
 
       });
 
@@ -98,6 +104,12 @@ App = {
 
   handleJoinGame: function () {
     //TODO L'opponent doit pouvoir faire joinGame en prenant les valeurs définies dans le html.
+    var JoinGameNumber = parseInt(document.getElementById("joinGameNumber").value);
+    var JoinGameValue = parseInt(document.getElementById("joinGameValue").value);
+
+    App.contracts.TicTacToe.deployed().then(function (instance) {
+      instance.joinGame(JoinGameNumber, { value: JoinGameValue }).then(function () { });
+    });
   }
 
 };
