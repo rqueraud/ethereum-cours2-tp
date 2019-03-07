@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,12 +31,20 @@
     <input id="joinGameNumber" type="number" placeholder="Join game Number">
     <button id="joinGame" onClick="App.handleJoinGame()">Join Game</button>
 
+    <div id="balances">
+      <h3>Balance of players :</h3>
+      <script>App.handleGetBalance()</script>
+    </div>
+
+    <br>
+
     <div id="boards">
+      <h3>Game : </h3>
       <!-- This is a basic exemple of an empty TicTacToe table, you should populate it with JS -->
       <table id="board">
-        <tr> <td>.</td> <td>.</td> <td>.</td> </tr>
-        <tr> <td>.</td> <td>.</td> <td>.</td> </tr>
-        <tr> <td>.</td> <td>.</td> <td>.</td> </tr>
+        <tr> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> </tr>
+        <tr> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> </tr>
+        <tr> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> <td><button onClick="App.handlePlay()"></button></td> </tr>
       </table>
     </div>
 

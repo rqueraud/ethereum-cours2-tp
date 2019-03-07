@@ -98,8 +98,36 @@ App = {
 
   handleJoinGame: function () {
     //TODO L'opponent doit pouvoir faire joinGame en prenant les valeurs définies dans le html.
-  }
+    let joinGameValue = parseInt(document.getElementById("joinGameValue").value);
+    let joinGameNumber = document.getElementById("joinGameNumber").value;
 
+    App.contracts.TicTacToe.deployed().then((instance) => {
+      instance.joinGame(joinGameNumber, {
+        value: joinGameValue
+      }).then(() => {});
+    }); 
+  },
+
+  handleGetBalance: function () {
+    // Get game number
+
+    // Call Contracts to get balance of players
+    App.contracts.TicTacToe.deployed().then((instance) => {
+      instance.getHostBalance().then(hostBalance => {
+        $('#balances').append(`<p>Host : ${hostBalance}</p>`);
+      });
+      instance.getOpponentBalance().then(opponentBalance => {
+        $('#balances').append(`<p>Opponent : ${opponentBalance}</p>`);
+      });
+    });
+  },
+
+  handlePlay: function () {
+    // Get game number
+
+    // Call contracts to play the game
+  }
+ 
 };
 
 $(function () {
