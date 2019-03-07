@@ -1,4 +1,4 @@
-pragma  solidity ^0.5.4;
+pragma solidity version ^0.5.4;
 
 /*
     This contract shows an example of the TicTacToe game written in Solidity.
@@ -42,6 +42,8 @@ contract TicTacToe {
     */
     modifier isHost(uint gameNumber, address player){
         //TODO De la même manière que isOpponent, valider que le joueur est bien le host de la partie
+        require(games[gameNumber].host == player, "Given player should be the host");
+        _;
     }
 
     /*
@@ -70,6 +72,8 @@ contract TicTacToe {
     */
     modifier isCellFree(uint gameNumber, uint row, uint column){
         //TODO Valider que la case n'a jamais été jouée
+        require(games[gameNumber].board[row][column] == address(0), "Cells is empty");
+        _;
     }
 
     modifier isValueProvided(uint value) {
@@ -85,29 +89,53 @@ contract TicTacToe {
     /*
         Returns the game numbers of the connected account
     */
-    function getHostGamesIds() {
-        //TODO Retourner un array avec les numéro de jeux auquel le compte EOA appelant la fonction est inscrit.
+
+    uint[] arrayNumber;
+    function getHostGamesIds() public returns (uint[] memory){
+        //TODO Retourner un array avec les numéro de jeux (getGamesNumber) auquel le compte EOA appelant la fonction est inscrit.
+        address host = msg.sender;
+        uint[] memory tempArrayNumber;
+        arrayNumber = tempArrayNumber;
+
+        for (uint i = 0; i < getGamesNumber(); i++) {
+            
+            if (games[i].host == host || games[i].opponent == host ){
+            arrayNumber.push(i);
+            }
+      }
+      return arrayNumber;
     }
 
+
+    
     /*
         The host can initiate the game for his address. He bet an initial amount of Ether.
     */
-    function initGame(address opponent) {
-        //TODO Créer un jeu et l'ajouter à la liste des jeux. Ce jeu doit enregistrer la mise du joueur le créant, ainsi que son addresse et l'addresse de l'adversaire qui sera passée en parametre.
+    function initGame(address opponent) payable public {
+        //TODO Créer un jeu et l'ajouter à la liste des jeux. Ce jeu doit enregistrer la mise du joueur le créant, 
+        //ainsi que son addresse et l'addresse de l'adversaire qui sera passée en parametre.
+        games.push(Game(0, msg.value, 0, msg.sender, opponent));
+
     }
+
 
     /*
         The opponent join the game.
     */
-    function joinGame(uint gameNumber) {
-        //TODO L'adversaire (un compte EOA) rejoint une partie qu'il choisit et sur laquelle il est déjà enregistré comme adversaire. Il doit mettre une mise initiale correspondant à celle mise par le Host.
+    function joinGame(uint gameNumber) isOpponent(gameNumber, msg.sender) public{
+        //TODO L'adversaire (un compte EOA) rejoint une partie qu'il choisit et sur laquelle il est déjà enregistré comme adversaire.
+        // Il doit mettre une mise initiale correspondant à celle mise par le Host
+        games[gameNumber].opponentBalance = games[gameNumber].hostBalance;
+
     }
 
     /*
         Play on a given cell
     */
-    function play(uint gameNumber, uint row, uint column) {
-        //TODO Un joueur place un pion sur un jeu auquel il s'est enregistré. Les mises des deux joueurs doivent être identiques pour jouer. Il faut également valider que la case n'a jamais été jouée.
+    function play(uint gameNumber, uint row, uint column) public{
+        //TODO Un joueur place un pion sur un jeu auquel il s'est enregistré. Les mises des deux joueurs doivent être ident
+        // iques pour jouer. Il faut également valider que la case n'a jamais été jouée.
+        
     }
 
 }
